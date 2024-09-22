@@ -1,0 +1,73 @@
+# Source files
+src/
+
+# TypeScript config
+tsconfig.json
+
+# Development files
+.gitignore
+.eslintrc.json
+.prettierrc
+
+# Test files
+__tests__/
+*.test.ts
+*.spec.ts
+
+# Build artifacts
+dist/
+
+# Dependency directories
+node_modules/
+
+# Environment variables
+.env
+.env.*
+
+# Editor directories and files
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS generated files
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Temporary files
+*.tmp
+*.temp
+
+# Coverage directory used by tools like istanbul
+coverage/
+
+# Lumen Docs specific
+lumen-docs/
+
+# OpenAPI spec files
+openapi.json
+swagger.json
+spec.json
+
+# TypeScript source maps
+*.map
+tsconfig.json
+
+# Git related
+.git/
+.gitattributes
+
+# CI/CD
+.travis.yml
+.gitlab-ci.yml
+.github/
+
+# Miscellaneous
+*.md
+!README.md
