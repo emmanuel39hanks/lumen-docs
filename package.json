@@ -1,8 +1,11 @@
 {
   "name": "lumen-docs",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Generate API documentation from OpenAPI spec files",
   "main": "dist/index.js",
+  "bin": {
+    "lumen-docs": "dist/index.js"
+  },
   "scripts": {
     "build": "tsc",
     "start": "node dist/index.js",
