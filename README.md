@@ -1,51 +1,89 @@
 # Lumen Docs
 
-Lumen Docs is a command-line tool that generates API documentation from OpenAPI specifications using OpenAI's GPT model.
+Illuminate Your API Documentation
+Generate, manage, and deploy beautiful API docs from OpenAPI specs using AI magic!
 
-## Usage
+## Lumen Docs CLI
 
 To use Lumen Docs, simply run the following command in your terminal:
 
 ```bash
-npx lumen-docs
+npx lumen-docs -h
 ```
 
-and you will be prompted to enter your OpenAI API key and specify the location of your OpenAPI spec file.
+### Usage
+
+```plaintext
+Usage: lumen-docs [options] [command]
+
+Generate API documentation from OpenAPI spec
+
+Options:
+  -V, --version     output the version number
+  -h, --help        display help for command
+
+Commands:
+  init              Initialize a new Lumen Docs project
+  generate          Generate API documentation
+  deploy            Deploy API documentation to GitBook
+  config            Update Lumen Docs configuration
+  enable <service>  Enable GitBook deployment
+  help [command]    display help for command
+```
+
+### Commands
+
+#### Initialize
+
+Start your documentation journey with:
+
+```bash
+npx lumen-docs init
+```
+
+This command sets up a new Lumen Docs project in your current directory. It creates necessary configuration files and folder structure for your API documentation.
+
+#### Generate
+
+Convert your OpenAPI specs into readable Markdown docs with:
+
+```bash
+npx lumen-docs generate
+```
+
+#### Deploy
+
+Share your docs using:
+
+```bash
+npx lumen-docs deploy 
+```
+
+One command, instant publication.
 
 ## Development
 
 To run the project in development mode:
 
 1. Clone the repository:
-   ```
+   ```bash
    git clone https://github.com/emmanuel39hanks/lumen-docs.git
    ```
 
 2. Navigate to the project directory:
-   ```
+   ```bash
    cd lumen-docs
    ```
 
 3. Install dependencies:
-   ```
+   ```bash
    npm install
    ```
 
 4. Build the project:
-   ```
+   ```bash
    npm run build
    ```
-
-## Usage
-
-1. Run the tool:
-   ```
-   npm run dev
-   ```
-
-2. Follow the prompts to enter your OpenAI API key and specify the location of your OpenAPI spec file.
-
-3. The generated documentation will be saved in the `lumen-gen` directory in the current working directory.
 
 ## Configuration
 
@@ -97,3 +135,8 @@ lumen-gen/
 ## Contributing
 
 Contributions are welcome! Please feel free to submit a Pull Request.
+
+## Powered by AI Magic
+
+Lumen Docs leverages OpenAI's GPT model to generate intelligent and context-aware documentation.
+```

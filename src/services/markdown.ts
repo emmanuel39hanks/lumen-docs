@@ -1,7 +1,7 @@
 import fs from "fs/promises";
 import path from "path";
 import {
-  generateEndpointContent,
+  generateEndpointDescription,
   generateIntroduction,
   generateResourceOverview,
 } from "./openai";
@@ -68,13 +68,11 @@ export async function generateMarkdownFiles(
     );
 
     for (const endpoint of endpoints) {
-      const fileName = `${sanitizeDirName(endpoint.method)}_${sanitizeDirName(
-        endpoint.path
-      )}.md`;
+      const fileName = getEndpointFileName(endpoint.method, endpoint.path);
       const filePath = path.join(resourceDir, fileName);
       const versionedFilePath = path.join(versionedResourceDir, fileName);
 
-      const content = await generateEndpointContent(endpoint);
+      const content = await generateEndpointDescription(endpoint);
       await fs.writeFile(filePath, content);
       await fs.writeFile(versionedFilePath, content);
       console.log(
@@ -87,7 +85,7 @@ export async function generateMarkdownFiles(
     }
     summaryContent += "\n";
   }
-  
+
   await fs.writeFile(path.join(currentOutputDir, "SUMMARY.md"), summaryContent);
 
   const introductionContent = await generateIntroduction();
@@ -221,7 +219,7 @@ Explore our API Reference section for detailed information on all available endp
 }
 
 function sanitizeDirName(name: string): string {
-  return name.toLowerCase().replace(/[^a-z0-9]+/g, "-");
+  return name.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/-+/g, "-");
 }
 
 function getEndpointFileName(method: string, path: string): string {

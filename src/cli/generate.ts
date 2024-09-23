@@ -20,13 +20,13 @@ dotenv.config();
 export async function generateDocumentation() {
   const config = loadConfig();
 
-  if (!process.env.OPENAI_API_KEY) {
+  if (!process.env.LUMEN_DOCS_OPENAI_API_KEY) {
     const apiKey = await promptForApiKey();
-    process.env.OPENAI_API_KEY = apiKey;
-    await fs.appendFile(".env", `\nOPENAI_API_KEY=${apiKey}`);
+    process.env.LUMEN_DOCS_OPENAI_API_KEY = apiKey;
+    await fs.appendFile(".env", `\nLUMEN_DOCS_OPENAI_API_KEY=${apiKey}`);
   }
 
-  if (config.gitbookDeploy.enabled && !process.env.GITBOOK_API_KEY) {
+  if (config.gitbookDeploy.enabled && !process.env.LUMEN_DOCS_GITBOOK_API_KEY) {
     const gitbookApiKey = await inquirer.prompt([
       {
         type: "input",
@@ -34,14 +34,14 @@ export async function generateDocumentation() {
         message: "Enter your GitBook API key:",
       },
     ]);
-    process.env.GITBOOK_API_KEY = gitbookApiKey.gitbookApiKey;
+    process.env.LUMEN_DOCS_GITBOOK_API_KEY = gitbookApiKey.gitbookApiKey;
     await fs.appendFile(
       ".env",
-      `\nGITBOOK_API_KEY=${gitbookApiKey.gitbookApiKey}`
+      `\nLUMEN_DOCS_GITBOOK_API_KEY=${gitbookApiKey.gitbookApiKey}`
     );
   }
 
-  if (config.gitbookDeploy.enabled && !process.env.GITBOOK_SPACE_ID) {
+  if (config.gitbookDeploy.enabled && !process.env.LUMEN_DOCS_GITBOOK_SPACE_ID) {
     const gitbookSpaceId = await inquirer.prompt([
       {
         type: "input",
@@ -49,10 +49,10 @@ export async function generateDocumentation() {
         message: "Enter your GitBook Space ID:",
       },
     ]);
-    process.env.GITBOOK_SPACE_ID = gitbookSpaceId.gitbookSpaceId;
+    process.env.LUMEN_DOCS_GITBOOK_SPACE_ID = gitbookSpaceId.gitbookSpaceId;
     await fs.appendFile(
       ".env",
-      `\nGITBOOK_SPACE_ID=${gitbookSpaceId.gitbookSpaceId}`
+      `\nLUMEN_DOCS_GITBOOK_SPACE_ID=${gitbookSpaceId.gitbookSpaceId}`
     );
   }
 

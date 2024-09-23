@@ -91,7 +91,7 @@ Use markdown formatting. The output should be concise yet informative.`;
   );
 }
 
-export async function generateEndpointContent(
+export async function generateEndpointDescription(
   endpoint: ParsedEndpoint,
 ): Promise<string> {
   const openai = new OpenAI({ apiKey: config.openai.apiKey });
@@ -107,103 +107,47 @@ Parameters: ${JSON.stringify(endpoint.parameters, null, 2)}
 Request Body: ${JSON.stringify(endpoint.requestBody, null, 2)}
 Responses: ${JSON.stringify(endpoint.responses, null, 2)}
 
-Please provide a factual and clear description of this endpoint. Do not include any information that is not explicitly stated in the provided details. Use the following format:
+Please provide a detailed explanation of the endpoint, including its purpose, required parameters, request format, and possible responses. Use the following format:
 
-# ${endpoint.method} ${endpoint.path}
+# \`${endpoint.method.toUpperCase()} ${endpoint.path}\`
 
-${endpoint.summary}
+### Summary:
+Provide a detailed summary of what this endpoint does.
 
-**Endpoint**: \`${endpoint.method} ${endpoint.path}\`
-
-- **Method**: \`${endpoint.method}\`
+### Endpoint:
+- **Method**: \`${endpoint.method.toUpperCase()}\`
 - **URL**: \`https://api.example.com${endpoint.path}\`
 
-- **Authorization**: 
-  - Type: Bearer Token
-  - Token: \`<Your Token Here>\`
+### Headers:
+- **Content-Type**: \`application/json\`
 
-- **Headers**: 
-  - \`Content-Type: application/json\`
+### Query Parameters:
+List any query parameters required for this endpoint.
 
-${
-  endpoint.parameters.length > 0
-    ? "- **Parameters**:\n" + formatJSON(endpoint.parameters)
-    : ""
-}
+### Request Body:
+Provide a detailed example of the request body in JSON format.
 
-${
-  endpoint.requestBody
-    ? "- **Body** (JSON format):\n```json\n" +
-      JSON.stringify(endpoint.requestBody, null, 2) +
-      "\n```\n"
-    : ""
-}
+### Expected Response:
 
-## Response
+#### Status Codes:
+List the possible status codes and their meanings.
 
-- **Status Codes**:
-${Object.entries(endpoint.responses)
-  .map(([code, response]) => `  - ${code}: ${response.description}`)
-  .join("\n")}
+#### Response Body (example):
+Provide an example of the response body in JSON format.
 
-- **Response Example** (JSON format):
-\`\`\`json
-${JSON.stringify(
-  endpoint.responses["200"] || endpoint.responses["201"],
-  null,
-  2
-)}
-\`\`\`
+### Example Request:
+Provide an example of how to make a request to this endpoint using curl.
 
-## Example Usage
-
-\`\`\`bash
-curl -X ${endpoint.method} https://api.example.com${endpoint.path} \\
--H "Content-Type: application/json" \\
--H "Authorization: Bearer <Your Token Here>" \\
-${endpoint.requestBody ? `-d '${JSON.stringify(endpoint.requestBody)}'` : ""}
-\`\`\`
-
-Provide only the information that can be directly inferred from the given endpoint details.`;
-
-  const completion = await openai.chat.completions.create({
-    model: config.openai.model,
-    messages: [{ role: "user", content: prompt }],
-    max_tokens: 1000,
-    temperature: config.openai.temperature,
-  });
-
-  return (
-    completion.choices[0].message.content ||
-    `# ${endpoint.method} ${endpoint.path}\n\n${endpoint.description}`
-  );
-}
-
-export async function generateEndpointDescription(
-  endpoint: ParsedEndpoint,
-): Promise<string> {
-  const openai = new OpenAI({ apiKey: config.openai.apiKey });
-
-  const prompt = `
-Generate clear and concise documentation for the following API endpoint:
-
-Method: ${endpoint.method}
-Path: ${endpoint.path}
-Summary: ${endpoint.summary}
-Description: ${endpoint.description}
-
-Parameters: ${JSON.stringify(endpoint.parameters, null, 2)}
-Request Body: ${JSON.stringify(endpoint.requestBody, null, 2)}
-Responses: ${JSON.stringify(endpoint.responses, null, 2)}
-
-Please provide a detailed explanation of the endpoint, including its purpose, required parameters, request format, and possible responses.
+### Notes:
+Include any additional notes or important information about this endpoint.
 `;
 
   try {
     const completion = await openai.chat.completions.create({
       model: config.openai.model,
       messages: [{ role: "user", content: prompt }],
-      max_tokens: 500,
+      max_tokens: 1000,
+      temperature: config.openai.temperature,
     });
 
     return completion.choices[0].message.content || "";

@@ -53,12 +53,12 @@ export async function initializeProject() {
 
   const configContent = `
 module.exports = {
-  apiKey: process.env.OPENAI_API_KEY,
+  apiKey: process.env.LUMEN_DOCS_OPENAI_API_KEY,
   outputDir: 'docs/',
   gitbookDeploy: {
     enabled: ${gitbookDeploy === "lumen-docs"},
-    gitbookApiKey: process.env.GITBOOK_API_KEY,
-    gitbookSpaceId: process.env.GITBOOK_SPACE_ID,
+    gitbookApiKey: process.env.LUMEN_DOCS_GITBOOK_API_KEY,
+    gitbookSpaceId: process.env.LUMEN_DOCS_GITBOOK_SPACE_ID,
   },
   openai: {
     model: 'gpt-4',
@@ -74,10 +74,13 @@ module.exports = {
 
   await fs.writeFile(path.join(lumenDocsDir, "lumen-docs.config.js"), configContent);
 
-  const envContent = `OPENAI_API_KEY=${openaiApiKey}
-GITBOOK_API_KEY=${gitbookApiKey || ""}
-GITBOOK_SPACE_ID=${gitbookSpaceId || ""}`;
-  await writeFile(path.join(projectDir, ".env"), envContent);
+  const envContent = `
+LUMEN_DOCS_OPENAI_API_KEY=${openaiApiKey}
+LUMEN_DOCS_GITBOOK_API_KEY=${gitbookApiKey || ""}
+LUMEN_DOCS_GITBOOK_SPACE_ID=${gitbookSpaceId || ""}
+`;
+
+  await fs.appendFile(path.join(projectDir, ".env"), envContent);
 
   console.log("Lumen Docs project initialized successfully!");
   if (gitbookDeploy === "lumen-docs") {
