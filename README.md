@@ -106,7 +106,7 @@ Error messages will be displayed in the console with helpful information for tro
 ## Project Structure
 
 ```plaintext
-lumen-gen/
+lumen-docs/
 ├── src/
 │ ├── cli/
 │ │ ├── prompts.ts
