@@ -1,6 +1,6 @@
 {
   "name": "lumen-docs",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "Generate API documentation from OpenAPI spec files",
   "main": "dist/index.js",
   "bin": {
@@ -29,7 +29,8 @@
     "dotenv": "^16.4.5",
     "inquirer": "^11.0.1",
     "nanospinner": "^1.1.0",
-    "openai": "^4.61.1"
+    "openai": "^4.61.1",
+    "rxjs": "^7.8.1"
   },
   "devDependencies": {
     "@types/archiver": "^6.0.2",
