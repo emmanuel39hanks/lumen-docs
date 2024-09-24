@@ -1,6 +1,6 @@
 {
   "name": "lumen-docs",
-  "version": "1.0.8",
+  "version": "1.0.9",
   "description": "Generate API documentation from OpenAPI spec files",
   "main": "dist/index.js",
   "bin": {
