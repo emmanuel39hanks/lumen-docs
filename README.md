@@ -59,8 +59,6 @@ Share your docs using:
 npx lumen-docs deploy 
 ```
 
-One command, instant publication.
-
 ## Development
 
 To run the project in development mode:
