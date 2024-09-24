@@ -61,8 +61,6 @@ export async function initializeProject() {
     ]);
 
   const configContent = `
-require('dotenv').config();
-
 module.exports = {
   outputDir: 'docs/',
   gitbookDeploy: {
