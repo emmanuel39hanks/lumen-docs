@@ -55,9 +55,10 @@ openapi.json
 swagger.json
 spec.json
 
-# TypeScript source maps
+# config files source maps
 *.map
 tsconfig.json
+webpack.config.js
 
 # Git related
 .git/

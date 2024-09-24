@@ -7,13 +7,13 @@ import {
   findChangedEndpoints,
   getNextVersionNumber,
 } from "../utils/versioning";
-import { createSpinner } from "./spinner";
+import { createSpinner } from "../utils/spinner";
 import { promptForApiKey, promptForSpecFile } from "./prompts";
 import { handleError } from "../utils/error-handler";
 import { OpenAPISpec } from "../types";
 import * as dotenv from "dotenv";
 import fs from "fs/promises";
-import inquirer from "inquirer";
+import prompts from "prompts";
 
 dotenv.config();
 
@@ -27,9 +27,9 @@ export async function generateDocumentation() {
   }
 
   if (config.gitbookDeploy.enabled && !process.env.LUMEN_DOCS_GITBOOK_API_KEY) {
-    const gitbookApiKey = await inquirer.prompt([
+    const gitbookApiKey = await prompts([
       {
-        type: "input",
+        type: "text",
         name: "gitbookApiKey",
         message: "Enter your GitBook API key:",
       },
@@ -42,9 +42,9 @@ export async function generateDocumentation() {
   }
 
   if (config.gitbookDeploy.enabled && !process.env.LUMEN_DOCS_GITBOOK_SPACE_ID) {
-    const gitbookSpaceId = await inquirer.prompt([
+    const gitbookSpaceId = await prompts([
       {
-        type: "input",
+        type: "text",
         name: "gitbookSpaceId",
         message: "Enter your GitBook Space ID:",
       },

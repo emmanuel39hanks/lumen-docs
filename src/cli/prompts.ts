@@ -1,13 +1,13 @@
-import inquirer from "inquirer";
 import { DEFAULT_SPEC_FILE } from "../config/constants";
 import fs from "fs/promises";
 import path from "path";
 import { findSpecFile } from "../utils/file";
+import prompts from "prompts";
 
 export async function promptForApiKey(): Promise<string> {
-  const { apiKey } = await inquirer.prompt([
+  const { apiKey } = await prompts([
     {
-      type: "input",
+      type: "text",
       name: "apiKey",
       message: `Please enter your OpenAI API key:`,
       validate: (input) => input.length > 0 || "API key is required",
@@ -20,12 +20,12 @@ export async function promptForSpecFile(): Promise<string> {
   const detectedSpecFile = await findSpecFile();
 
   if (detectedSpecFile) {
-    const { useDetectedFile } = await inquirer.prompt([
+    const { useDetectedFile } = await prompts([
       {
         type: "confirm",
         name: "useDetectedFile",
         message: `Auto-detected spec file at ${detectedSpecFile}. Do you want to use this file?`,
-        default: true,
+        initial: true,
       },
     ]);
 
@@ -40,12 +40,12 @@ export async function promptForSpecFile(): Promise<string> {
     }
   }
 
-  const { specFile } = await inquirer.prompt([
+  const { specFile } = await prompts([
     {
-      type: "input",
+      type: "text",
       name: "specFile",
       message: "Where is your OpenAPI spec file located?",
-      default: DEFAULT_SPEC_FILE,
+      initial: DEFAULT_SPEC_FILE,
       validate: async (input) => {
         const fullPath = path.resolve(process.cwd(), input);
         try {

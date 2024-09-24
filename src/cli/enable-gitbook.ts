@@ -1,6 +1,6 @@
 import { loadConfig } from "../utils/load-config";
 import { writeFile } from "../utils/file";
-import inquirer from "inquirer";
+import prompts from "prompts";
 import path from "path";
 
 export async function enableGitBook() {
@@ -11,15 +11,15 @@ export async function enableGitBook() {
     return;
   }
 
-  const { gitbookApiKey, gitbookSpaceId } = await inquirer.prompt([
+  const { gitbookApiKey, gitbookSpaceId } = await prompts([
     {
-      type: "input",
+      type: "text",
       name: "gitbookApiKey",
       message: "Enter your GitBook API key:",
       validate: (input) => input.length > 0 || "GitBook API key is required",
     },
     {
-      type: "input",
+      type: "text",
       name: "gitbookSpaceId",
       message: "Enter your GitBook Space ID:",
       validate: (input) => input.length > 0 || "GitBook Space ID is required",

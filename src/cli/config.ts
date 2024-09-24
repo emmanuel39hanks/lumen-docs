@@ -1,4 +1,4 @@
-import inquirer from "inquirer";
+import prompts from "prompts";
 import fs from "fs/promises";
 import path from "path";
 
@@ -15,21 +15,21 @@ export async function updateConfiguration() {
     return;
   }
 
-  const { configKey } = await inquirer.prompt([
+  const { configKey } = await prompts([
     {
-      type: "list",
+      type: "select",
       name: "configKey",
       message: "Which configuration key would you like to update?",
-      choices: Object.keys(config),
+      choices: Object.keys(config).map((key) => ({ title: key, value: key })),
     },
   ]);
 
-  const { newValue } = await inquirer.prompt([
+  const { newValue } = await prompts([
     {
-      type: "input",
+      type: "text",
       name: "newValue",
       message: `Enter new value for ${configKey}:`,
-      default: JSON.stringify(config[configKey]),
+      initial: JSON.stringify(config[configKey]),
     },
   ]);
 

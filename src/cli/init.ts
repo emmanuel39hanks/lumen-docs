@@ -1,7 +1,6 @@
 import fs from "fs/promises";
 import path from "path";
-import inquirer from "inquirer";
-import { writeFile } from "../utils/file";
+import prompts from "prompts";
 
 export async function initializeProject() {
   const projectDir = process.cwd();
@@ -19,34 +18,32 @@ export async function initializeProject() {
   await fs.mkdir(path.join(lumenDocsDir, "versions", "specs"), { recursive: true });
   await fs.mkdir(path.join(lumenDocsDir, "versions", "docs"), { recursive: true });
 
-  const { openaiApiKey, gitbookDeploy, gitbookApiKey, gitbookSpaceId } = await inquirer.prompt([
+  const { openaiApiKey, gitbookDeploy, gitbookApiKey, gitbookSpaceId } = await prompts([
     {
-      type: "input",
+      type: "text",
       name: "openaiApiKey",
       message: "Enter your OpenAI API key:",
       validate: (input) => input.length > 0 || "API key is required",
     },
     {
-      type: "list",
+      type: "select",
       name: "gitbookDeploy",
       message: "How would you like to deploy to GitBook?",
       choices: [
-        { name: "Use 'lumen-docs deploy' command", value: "lumen-docs" },
-        { name: "Manual git sync setup", value: "manual" },
+        { title: "Use 'lumen-docs deploy' command", value: "lumen-docs" },
+        { title: "Manual git sync setup", value: "manual" },
       ],
     },
     {
-      type: "input",
+      type: (prev) => prev === "lumen-docs" ? "text" : null,
       name: "gitbookApiKey",
       message: "Enter your GitBook API key:",
-      when: (answers) => answers.gitbookDeploy === "lumen-docs",
       validate: (input) => input.length > 0 || "GitBook API key is required for automatic deployment",
     },
     {
-      type: "input",
+      type: (prev, values) => values.gitbookDeploy === "lumen-docs" ? "text" : null,
       name: "gitbookSpaceId",
       message: "Enter your GitBook Space ID:",
-      when: (answers) => answers.gitbookDeploy === "lumen-docs",
       validate: (input) => input.length > 0 || "GitBook Space ID is required for automatic deployment",
     },
   ]);

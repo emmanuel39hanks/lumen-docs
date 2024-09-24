@@ -1,5 +1,5 @@
 import { loadConfig } from "../utils/load-config";
-import { createSpinner } from "./spinner";
+import { createSpinner } from "../utils/spinner";
 import { handleError } from "../utils/error-handler";
 import { deployToGitBook } from "../utils/gitbook-deploy";
 import path from "path";
