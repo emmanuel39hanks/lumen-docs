@@ -34,7 +34,6 @@ export async function findSpecFile(
       try {
         const stats = await fs.stat(fullPath);
         if (stats.isFile()) {
-          console.log(`Found spec file: ${fullPath}`);
           return filePath;
         }
       } catch {

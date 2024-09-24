@@ -8,49 +8,62 @@ export async function initializeProject() {
 
   try {
     await fs.access(lumenDocsDir);
-    console.log("Lumen Docs project already initialized. Run 'npx lumen-docs generate' to generate documentation.");
+    console.log(
+      "Lumen Docs project already initialized. Run 'npx lumen-docs generate' to generate documentation."
+    );
     return;
   } catch (error) {
     // if the lumen-docs directory does not exist, proceed with init
   }
 
   await fs.mkdir(lumenDocsDir, { recursive: true });
-  await fs.mkdir(path.join(lumenDocsDir, "versions", "specs"), { recursive: true });
-  await fs.mkdir(path.join(lumenDocsDir, "versions", "docs"), { recursive: true });
+  await fs.mkdir(path.join(lumenDocsDir, "versions", "specs"), {
+    recursive: true,
+  });
+  await fs.mkdir(path.join(lumenDocsDir, "versions", "docs"), {
+    recursive: true,
+  });
 
-  const { openaiApiKey, gitbookDeploy, gitbookApiKey, gitbookSpaceId } = await prompts([
-    {
-      type: "text",
-      name: "openaiApiKey",
-      message: "Enter your OpenAI API key:",
-      validate: (input) => input.length > 0 || "API key is required",
-    },
-    {
-      type: "select",
-      name: "gitbookDeploy",
-      message: "How would you like to deploy to GitBook?",
-      choices: [
-        { title: "Use 'lumen-docs deploy' command", value: "lumen-docs" },
-        { title: "Manual git sync setup", value: "manual" },
-      ],
-    },
-    {
-      type: (prev) => prev === "lumen-docs" ? "text" : null,
-      name: "gitbookApiKey",
-      message: "Enter your GitBook API key:",
-      validate: (input) => input.length > 0 || "GitBook API key is required for automatic deployment",
-    },
-    {
-      type: (prev, values) => values.gitbookDeploy === "lumen-docs" ? "text" : null,
-      name: "gitbookSpaceId",
-      message: "Enter your GitBook Space ID:",
-      validate: (input) => input.length > 0 || "GitBook Space ID is required for automatic deployment",
-    },
-  ]);
+  const { openaiApiKey, gitbookDeploy, gitbookApiKey, gitbookSpaceId } =
+    await prompts([
+      {
+        type: "text",
+        name: "openaiApiKey",
+        message: "Enter your OpenAI API key:",
+        validate: (input) => input.length > 0 || "API key is required",
+      },
+      {
+        type: "select",
+        name: "gitbookDeploy",
+        message: "How would you like to deploy to GitBook?",
+        choices: [
+          { title: "Use 'lumen-docs deploy' command", value: "lumen-docs" },
+          { title: "Manual git sync setup", value: "manual" },
+        ],
+      },
+      {
+        type: (prev) => (prev === "lumen-docs" ? "text" : null),
+        name: "gitbookApiKey",
+        message: "Enter your GitBook API key:",
+        validate: (input) =>
+          input.length > 0 ||
+          "GitBook API key is required for automatic deployment",
+      },
+      {
+        type: (prev, values) =>
+          values.gitbookDeploy === "lumen-docs" ? "text" : null,
+        name: "gitbookSpaceId",
+        message: "Enter your GitBook Space ID:",
+        validate: (input) =>
+          input.length > 0 ||
+          "GitBook Space ID is required for automatic deployment",
+      },
+    ]);
 
   const configContent = `
+require('dotenv').config();
+
 module.exports = {
-  apiKey: process.env.LUMEN_DOCS_OPENAI_API_KEY,
   outputDir: 'docs/',
   gitbookDeploy: {
     enabled: ${gitbookDeploy === "lumen-docs"},
@@ -58,6 +71,7 @@ module.exports = {
     gitbookSpaceId: process.env.LUMEN_DOCS_GITBOOK_SPACE_ID,
   },
   openai: {
+    apiKey: process.env.LUMEN_DOCS_OPENAI_API_KEY,
     model: 'gpt-4',
     tone: 'formal',
     temperature: 0.2,
@@ -69,7 +83,10 @@ module.exports = {
 };
 `;
 
-  await fs.writeFile(path.join(lumenDocsDir, "lumen-docs.config.js"), configContent);
+  await fs.writeFile(
+    path.join(lumenDocsDir, "lumen-docs.config.js"),
+    configContent
+  );
 
   const envContent = `
 LUMEN_DOCS_OPENAI_API_KEY=${openaiApiKey}

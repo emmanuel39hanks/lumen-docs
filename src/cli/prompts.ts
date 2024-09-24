@@ -24,7 +24,7 @@ export async function promptForSpecFile(): Promise<string> {
       {
         type: "confirm",
         name: "useDetectedFile",
-        message: `Auto-detected spec file at ${detectedSpecFile}. Do you want to use this file?`,
+        message: `Auto-detected spec file named ${detectedSpecFile}. Do you want to use this file?`,
         initial: true,
       },
     ]);

@@ -11,11 +11,8 @@ import { createSpinner } from "../utils/spinner";
 import { promptForApiKey, promptForSpecFile } from "./prompts";
 import { handleError } from "../utils/error-handler";
 import { OpenAPISpec } from "../types";
-import * as dotenv from "dotenv";
 import fs from "fs/promises";
 import prompts from "prompts";
-
-dotenv.config();
 
 export async function generateDocumentation() {
   const config = loadConfig();
@@ -73,7 +70,7 @@ export async function generateDocumentation() {
 
     const parsedSpec = await parseOpenAPISpec(
       currentSpec,
-      config.api || ""
+      config.openai.apiKey || ""
     );
     await generateMarkdownFiles(
       parsedSpec,
