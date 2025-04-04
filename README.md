@@ -137,4 +137,3 @@ Contributions are welcome! Please feel free to submit a Pull Request.
 ## Powered by AI Magic
 
 Lumen Docs leverages OpenAI's GPT model to generate intelligent and context-aware documentation.
-```
